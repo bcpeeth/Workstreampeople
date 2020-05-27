@@ -34,7 +34,7 @@ const fetch = require('node-fetch')
 //     return fetch(`https://catappapi.herokuapp.com/users/${userId}`)
 //         .then(response => response.json())
 //         .then(user => {
-//             const promises = user.cats.map(catId => 
+//             const promises = user.cats.map(catId =>
 //                 fetch(`https://catappapi.herokuapp.com/cats/${catId}`)
 //                     .then(response => response.json())
 //                     .then(catData => catData.imageUrl)
@@ -49,28 +49,58 @@ const fetch = require('node-fetch')
 // ----------------------------------------------------------------
 // And using async/await:
 
+// async function fetchCatAvatars(userId) {
+//   const response = await fetch(`https://catappapi.herokuapp.com/users/${userId}`)
+//   const user = await response.json()
+//   const catImageUrls = []
+//   for (const catId of user.cats) {
+//     const response = await fetch(`https://catappapi.herokuapp.com/cats/${catId}`)
+//     const catData = await response.json()
+//     catImageUrls.push(catData.imageUrl)
+//   }
+//   return catImageUrls
+
+//   // return fetch(`https://catappapi.herokuapp.com/users/${userId}`)
+//   //   .then(response => response.json())
+//   //   .then(user => {
+//   //       const promises = user.cats.map(catId =>
+//   //           fetch(`https://catappapi.herokuapp.com/cats/${catId}`)
+//   //               .then(response => response.json())
+//   //               .then(catData => catData.imageUrl)
+//   //       )
+//   //       return Promise.all(promises)
+//   //   })
+// }
+
+// const result = fetchCatAvatars(123)
+// result
+
+// ----------------------------------------------------------------
+
 async function fetchCatAvatars(userId) {
   const response = await fetch(`https://catappapi.herokuapp.com/users/${userId}`)
   const user = await response.json()
-  const catImageUrls = []
-  for (const catId of user.cats) {
+
+  return await Promise.all(user.cats.map(async function(catId) {
     const response = await fetch(`https://catappapi.herokuapp.com/cats/${catId}`)
     const catData = await response.json()
-    catImageUrls.push(catData.imageUrl)
-  }
-  return catImageUrls
-
-  // return fetch(`https://catappapi.herokuapp.com/users/${userId}`)
-  //   .then(response => response.json())
-  //   .then(user => {
-  //       const promises = user.cats.map(catId =>
-  //           fetch(`https://catappapi.herokuapp.com/cats/${catId}`)
-  //               .then(response => response.json())
-  //               .then(catData => catData.imageUrl)
-  //       )
-  //       return Promise.all(promises)
-  //   })
+    catData
+    return catData.imageUrl
+  }))
 }
 
 const result = fetchCatAvatars(123)
 result
+
+// ----------------------------------------------------------------
+
+// async function party() {
+//   return 'poop'
+// }
+
+// const result = party()
+// result
+
+// // An async function will always return a promise
+
+
