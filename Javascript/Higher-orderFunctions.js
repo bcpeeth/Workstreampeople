@@ -38,7 +38,7 @@ var animals = [
 
 // console.log(dogs)
 
-// Let's now rewrite this using the 'filter' function.
+// Let's now rewrite this using 'filter'. 'Filter' is the method on the array object that takes another function as its argument, and uses that function to filter the array.
 
 var dogs = animals.filter(function(animal) {
   return animal.species === 'dog'
